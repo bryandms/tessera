@@ -1,58 +1,29 @@
-import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { type TypographyVariant, useTheme, useThemeMode } from 'tessera';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import { useTheme, useThemeMode } from 'tessera';
 
-const variants: TypographyVariant[] = [
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'subtitle1',
-  'subtitle2',
-  'body1',
-  'body2',
-  'caption',
-  'overline',
-];
-
-const paletteTones = ['light', 'main', 'dark'] as const;
-
-type PaletteName =
-  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error';
-
-const paletteNames: PaletteName[] = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'error',
-];
+const componentLinks = [{ href: '/typography', label: 'Typography' }] as const;
 
 export default function Index() {
-  const { mode, setMode } = useThemeMode();
   const theme = useTheme();
-  const [swatchIndex, setSwatchIndex] = useState(0);
-
-  const toggleMode = () => setMode(mode === 'light' ? 'dark' : 'light');
+  const { mode, setMode } = useThemeMode();
+  const rootStyle = StyleSheet.flatten([
+    styles.container,
+    { backgroundColor: theme.palette.background.default },
+  ]);
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: theme.palette.background.default },
-      ]}>
+    <SafeAreaView style={rootStyle} edges={['top', 'bottom']}>
       <Text
         style={[theme.typography.h3, { color: theme.palette.text.primary }]}>
         Tessera
       </Text>
 
       <Pressable
-        onPress={toggleMode}
+        onPress={() => setMode(mode === 'light' ? 'dark' : 'light')}
         style={[
-          styles.toggle,
+          styles.modeToggle,
           {
             backgroundColor: theme.palette.primary.main,
             borderRadius: theme.radius.md,
@@ -67,48 +38,32 @@ export default function Index() {
         </Text>
       </Pressable>
 
-      <View style={styles.swatches}>
-        {paletteNames.map(name => (
-          <Pressable
-            key={name}
-            onPress={() =>
-              setSwatchIndex((swatchIndex + 1) % paletteTones.length)
-            }
-            style={styles.swatch}>
-            <View
-              style={[
-                styles.swatchColor,
-                {
-                  backgroundColor:
-                    theme.palette[name][paletteTones[swatchIndex] ?? 'main'],
-                  borderRadius: theme.radius.sm,
-                },
-              ]}
-            />
-            <Text
-              style={[
-                theme.typography.caption,
-                { color: theme.palette.text.secondary },
-              ]}>
-              {name}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      <View style={styles.links}>
+        {componentLinks.map(({ href, label }) => {
+          const linkStyle = StyleSheet.flatten([
+            styles.link,
+            {
+              borderRadius: theme.radius.md,
+              borderColor: theme.palette.divider,
+            },
+          ]);
 
-      <View style={styles.typography}>
-        {variants.map(variant => (
-          <Text
-            key={variant}
-            style={[
-              theme.typography[variant],
-              { color: theme.palette.text.primary },
-            ]}>
-            {variant}
-          </Text>
-        ))}
+          return (
+            <Link key={href} href={href} asChild>
+              <Pressable style={linkStyle}>
+                <Text
+                  style={[
+                    theme.typography.body1,
+                    { color: theme.palette.text.primary },
+                  ]}>
+                  {label}
+                </Text>
+              </Pressable>
+            </Link>
+          );
+        })}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -120,27 +75,16 @@ const styles = StyleSheet.create({
     gap: 24,
     padding: 24,
   },
-  toggle: {
-    alignItems: 'center',
+  links: {
+    gap: 12,
+  },
+  modeToggle: {
     paddingVertical: 12,
     paddingHorizontal: 24,
   },
-  swatches: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 16,
-    justifyContent: 'center',
-  },
-  swatch: {
-    alignItems: 'center',
-    gap: 4,
-  },
-  swatchColor: {
-    width: 48,
-    height: 48,
-  },
-  typography: {
-    gap: 4,
-    alignItems: 'center',
+  link: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderWidth: 1,
   },
 });
