@@ -20,14 +20,19 @@
     "@docusaurus/preset-classic": "3.10.2",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-native-web": "~0.21.0",
+    "tessera": "workspace:*",
+    "tessera-examples": "workspace:*"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.2",
     "@docusaurus/tsconfig": "3.10.2",
     "@docusaurus/types": "3.10.2",
     "@types/react": "^19.0.0",
-    "typescript": "~6.0.3"
+    "react-native": "0.86.3",
+    "typescript": "~6.0.3",
+    "webpack": "5.111.1"
   },
   "browserslist": {
     "production": [
