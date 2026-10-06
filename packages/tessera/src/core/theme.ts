@@ -9,6 +9,7 @@ export type PaletteColor = PaletteShades & {
   main: string;
   dark: string;
   contrastText: string;
+  textColor: string;
 };
 
 export type TypographyVariant =
@@ -58,16 +59,43 @@ export type AppTheme = {
   radius: RadiusScale;
 };
 
+type ShadeKey = keyof PaletteShades;
+
+type PaletteColorOptions = {
+  contrastText?: string;
+  textColor?: string;
+  shadeMap?: { light: ShadeKey; main: ShadeKey; dark: ShadeKey };
+};
+
 const toPaletteColor = (
   shades: PaletteShades,
-  contrastText = '#FFFFFF',
-): PaletteColor => ({
-  ...shades,
-  light: shades['700'],
-  main: shades['800'],
-  dark: shades['900'],
-  contrastText,
-});
+  mode: ThemeMode,
+  options: PaletteColorOptions = {},
+): PaletteColor => {
+  const { contrastText, textColor, shadeMap } = options;
+  if (mode === 'dark') {
+    const shadesMap =
+      shadeMap ?? ({ light: '300', main: '400', dark: '600' } as const);
+    return {
+      ...shades,
+      light: shades[shadesMap.light],
+      main: shades[shadesMap.main],
+      dark: shades[shadesMap.dark],
+      contrastText: contrastText ?? '#000000',
+      textColor: textColor ?? shades[shadesMap.main],
+    };
+  }
+  const shadesMap =
+    shadeMap ?? ({ light: '700', main: '800', dark: '900' } as const);
+  return {
+    ...shades,
+    light: shades[shadesMap.light],
+    main: shades[shadesMap.main],
+    dark: shades[shadesMap.dark],
+    contrastText: contrastText ?? '#FFFFFF',
+    textColor: textColor ?? shades[shadesMap.main],
+  };
+};
 
 const buildTypography = (
   mode: ThemeMode,
@@ -145,13 +173,22 @@ export const createAppTheme = (mode: ThemeMode = 'light'): AppTheme => {
   return {
     mode,
     palette: {
-      primary: toPaletteColor(paletteShades.primary),
-      secondary: toPaletteColor(paletteShades.secondary),
+      primary: toPaletteColor(paletteShades.primary, mode),
+      secondary: toPaletteColor(paletteShades.secondary, mode, {
+        contrastText: '#FFFFFF',
+        textColor: isDark ? paletteShades.secondary['300'] : undefined,
+        shadeMap: isDark
+          ? { light: '600', main: '700', dark: '800' }
+          : undefined,
+      }),
       grey: paletteShades.grey,
-      success: toPaletteColor(paletteShades.success),
-      info: toPaletteColor(paletteShades.info),
-      warning: toPaletteColor(paletteShades.warning, '#212121'),
-      error: toPaletteColor(paletteShades.error),
+      success: toPaletteColor(paletteShades.success, mode),
+      info: toPaletteColor(paletteShades.info, mode),
+      warning: toPaletteColor(paletteShades.warning, mode, {
+        contrastText: isDark ? undefined : '#212121',
+        textColor: isDark ? undefined : '#C25400',
+      }),
+      error: toPaletteColor(paletteShades.error, mode),
       common: { white: '#FFFFFF', black: '#000000' },
       action: isDark
         ? {
