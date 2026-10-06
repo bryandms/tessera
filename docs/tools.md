@@ -1,0 +1,25 @@
+# Tools
+
+| Tool                               | Version                                     | Role                                      | Official docs                                                                                        |
+| ---------------------------------- | ------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| pnpm                               | 11 (pinned via `packageManager`)            | Workspaces, package management            | [pnpm.io](https://pnpm.io)                                                                           |
+| Node                               | ≥ 20                                        | Runtime                                   | [nodejs.org](https://nodejs.org)                                                                     |
+| TypeScript                         | 6.0                                         | Static typing, strict reinforced          | [typescriptlang.org](https://www.typescriptlang.org/docs)                                            |
+| Expo SDK                           | 57                                          | React Native tooling, demo app            | [docs.expo.dev](https://docs.expo.dev)                                                               |
+| React Native                       | 0.86                                        | Mobile runtime                            | [reactnative.dev](https://reactnative.dev)                                                           |
+| Expo Router                        | 57                                          | File-based routes in the demo app         | [docs.expo.dev/router](https://docs.expo.dev/router/introduction/)                                   |
+| react-native-web                   | 0.21                                        | RN components on the docs previews        | [necolas.github.io/react-native-web](https://necolas.github.io/react-native-web/)                    |
+| Docusaurus                         | 3.10                                        | Documentation site                        | [docusaurus.io](https://docusaurus.io/docs)                                                          |
+| ESLint                             | 9 (flat config) + `eslint-config-expo`      | Lint + catalog boundaries                 | [eslint.org](https://eslint.org/docs/latest/)                                                        |
+| Prettier                           | 3 + `@trivago/prettier-plugin-sort-imports` | Formatting + import order                 | [prettier.io](https://prettier.io/docs/en/)                                                          |
+| Husky                              | 9                                           | Git hooks                                 | [typicode.github.io/husky](https://typicode.github.io/husky/get-started.html)                        |
+| lint-staged                        | 17                                          | Per-file staged checks                    | [github.com/lint-staged](https://github.com/lint-staged)                                             |
+| commitlint                         | 21                                          | Conventional Commits validation           | [commitlint.js.org](https://commitlint.js.org)                                                       |
+| madge                              | 8                                           | Circular dependency detection             | [github.com/pahen/madge](https://github.com/pahen/madge)                                             |
+| release-it                         | 21                                          | Versioning, changelog, tags               | [github.com/release-it/release-it](https://github.com/release-it/release-it)                         |
+| @release-it/conventional-changelog | 12                                          | Changelog from Conventional Commits       | [github.com/release-it/conventional-changelog](https://github.com/release-it/conventional-changelog) |
+| dotenv-cli                         | 11                                          | Env wrapper for release scripts           | [github.com/entropitor/dotenv-cli](https://github.com/entropitor/dotenv-cli)                         |
+| gh-pages                           | 6 (devDep of `website`)                     | Docs deploy to GitHub Pages               | [github.com/tschaub/gh-pages](https://github.com/tschaub/gh-pages)                                   |
+| accessibility (manual)             | WCAG 2.1                                    | AA contrast checks with a contrast script | [w3.org/TR/WCAG21](https://www.w3.org/TR/WCAG21/)                                                    |
+
+Not used on purpose: component UI libraries (the catalog is the UI library), NativeWind/styled-components (plain `StyleSheet` + tokens), FSD/Steiger (the catalog uses its own boundaries), CI platforms (the local `validate` gate is the pipeline).

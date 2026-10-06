@@ -21,13 +21,17 @@ const config: Config = {
   tagline:
     "Copyable React Native components for Expo — shadcn-style. Copy the code, don't install a package.",
   favicon: 'img/favicon.png',
+  trailingSlash: true,
 
   future: {
     v4: true,
   },
 
-  url: 'https://your-docusaurus-site.example.com',
-  baseUrl: '/',
+  url: 'https://bryandms.github.io',
+  baseUrl: '/tessera/',
+
+  organizationName: 'bryandms',
+  projectName: 'tessera',
 
   onBrokenLinks: 'throw',
 
