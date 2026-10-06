@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 
 export default function Home(): ReactNode {
+  const logoUrl = useBaseUrl('/img/logo.svg');
+
   return (
     <Layout>
       <main className="container margin-vert--xl text--center">
-        <img src="/img/logo.svg" alt="Tessera logo" width={112} height={112} />
+        <img src={logoUrl} alt="Tessera logo" width={112} height={112} />
         <h1 className="margin-top--sm">Tessera</h1>
         <p className="text--lg">
           Copyable React Native components for Expo — shadcn-style. Copy the
