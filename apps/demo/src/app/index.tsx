@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { useTheme, useThemeMode } from 'tessera';
@@ -15,6 +15,11 @@ export default function Index() {
 
   return (
     <SafeAreaView style={rootStyle} edges={['top', 'bottom']}>
+      <Image
+        source={require('../../assets/images/icon.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <Text
         style={[theme.typography.h3, { color: theme.palette.text.primary }]}>
         Tessera
@@ -74,6 +79,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 24,
     padding: 24,
+  },
+  logo: {
+    width: 96,
+    height: 96,
+    borderRadius: 24,
   },
   links: {
     gap: 12,

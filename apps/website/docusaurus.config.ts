@@ -20,7 +20,7 @@ const config: Config = {
   title: 'Tessera',
   tagline:
     "Copyable React Native components for Expo — shadcn-style. Copy the code, don't install a package.",
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.png',
 
   future: {
     v4: true,
@@ -59,6 +59,10 @@ const config: Config = {
     },
     navbar: {
       title: 'Tessera',
+      logo: {
+        alt: 'Tessera logo',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           type: 'docSidebar',
