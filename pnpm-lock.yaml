@@ -100,10 +100,14 @@ importers:
         specifier: ^19.0.0
         version: 19.2.18
       typescript:
-        specifier: ~6.0.2
+        specifier: ~6.0.3
         version: 6.0.3
 
-  examples: {}
+  examples:
+    devDependencies:
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
 
   packages/tessera:
     devDependencies:
@@ -116,6 +120,9 @@ importers:
       react-native:
         specifier: 0.86.3
         version: 0.86.3(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3)
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
 
 packages:
 
