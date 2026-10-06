@@ -1,8 +1,9 @@
 packages:
-  - "apps/*"
-  - "packages/*"
-  - "examples"
+  - 'apps/*'
+  - 'packages/*'
+  - 'examples'
 
 allowBuilds:
-  "@swc/core": true
-  "core-js": true
+  '@swc/core': true
+  'core-js': true
+  'unrs-resolver': true

@@ -1,36 +1,36 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
-import type * as Preset from "@docusaurus/preset-classic";
+import type * as Preset from '@docusaurus/preset-classic';
+import type { Config } from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
-  title: "Tessera",
+  title: 'Tessera',
   tagline:
     "Copyable React Native components for Expo — shadcn-style. Copy the code, don't install a package.",
-  favicon: "img/favicon.ico",
+  favicon: 'img/favicon.ico',
 
   future: {
     v4: true,
   },
 
-  url: "https://your-docusaurus-site.example.com",
-  baseUrl: "/",
+  url: 'https://your-docusaurus-site.example.com',
+  baseUrl: '/',
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: 'throw',
 
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   presets: [
     [
-      "classic",
+      'classic',
       {
         docs: {
-          sidebarPath: "./sidebars.ts",
+          sidebarPath: './sidebars.ts',
         },
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
@@ -41,18 +41,18 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: "Tessera",
+      title: 'Tessera',
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "catalogSidebar",
-          position: "left",
-          label: "Docs",
+          type: 'docSidebar',
+          sidebarId: 'catalogSidebar',
+          position: 'left',
+          label: 'Docs',
         },
       ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       copyright: `Copyright © ${new Date().getFullYear()} Tessera. Built with Docusaurus.`,
     },
     prism: {

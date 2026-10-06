@@ -1,4 +1,4 @@
-import Layout from "@theme/Layout";
+import Layout from '@theme/Layout';
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
         <h1>Tessera</h1>
         <p>
           Copyable React Native components for Expo — shadcn-style. Copy the
-          code, don't install a package.
+          code, don&apos;t install a package.
         </p>
       </main>
     </Layout>

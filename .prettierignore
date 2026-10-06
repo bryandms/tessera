@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+.docusaurus/
+build/
+dist/
+coverage/
+.next/
+out/
+pnpm-lock.yaml
+CHANGELOG.md
+.env*

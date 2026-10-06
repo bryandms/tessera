@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { AppTheme } from './theme';
 import { useTheme } from './theme-provider';
@@ -20,19 +19,21 @@ export type TesseraStyleProp<
 export function resolveTesseraStyle<
   St extends object = ViewStyle,
   S extends TesseraStyleState = TesseraStyleState,
->(theme: AppTheme, state: S, style: TesseraStyleProp<St, S> | undefined) {
+>(
+  theme: AppTheme,
+  state: S,
+  style: TesseraStyleProp<St, S> | undefined,
+): StyleProp<St> | undefined {
   return typeof style === 'function' ? style(theme, state) : style;
 }
 
 export function useTesseraStyle<
   St extends object = ViewStyle,
   S extends TesseraStyleState = TesseraStyleState,
->(style: TesseraStyleProp<St, S> | undefined, state: S): StyleProp<St> | undefined {
+>(
+  style: TesseraStyleProp<St, S> | undefined,
+  state: S,
+): StyleProp<St> | undefined {
   const theme = useTheme();
-  const { pressed, focused, disabled, error, selected, busy } = state;
-
-  return useMemo(
-    () => resolveTesseraStyle(theme, state, style),
-    [theme, style, pressed, focused, disabled, error, selected, busy],
-  );
+  return resolveTesseraStyle(theme, state, style);
 }
