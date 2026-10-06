@@ -1,0 +1,106 @@
+import ExamplePreview from '@site/src/components/example-preview';
+import {
+  TypographyBasicExample,
+  TypographyStyleOverrideExample,
+  TypographyTonesExample,
+  TypographyVariantsExample,
+  TypographyWeightExample,
+} from 'tessera-examples';
+
+# Typography
+
+The typography component is the anchor of the catalog: it renders text from the theme's typography scale, applies semantic colors against the palette and adapts to light and dark mode automatically.
+
+To copy `Typography` into your project, follow the [How to copy](/docs/intro#how-to-copy) guide — copy `core` once plus the `typography` folder, mount `ThemeProvider` and you are done.
+
+```tsx tessera-example:typography/basic.tsx
+
+```
+
+<ExamplePreview Component={TypographyBasicExample} />
+
+## Examples
+
+### Variants
+
+The full typography scale, straight from the theme tokens. Every variant maps 1:1 to a token in `core/tokens.ts`:
+
+```tsx tessera-example:typography/variants.tsx
+
+```
+
+<ExamplePreview Component={TypographyVariantsExample} />
+
+### Tones
+
+Semantic colors resolved against the palette. `secondary` maps to the muted **text** tone (not the gray palette color), so text stays readable. Palette tones resolve to the `textColor` token — the AA-safe variant of each color for use as text on the default background:
+
+```tsx tessera-example:typography/tones.tsx
+
+```
+
+<ExamplePreview Component={TypographyTonesExample} />
+
+### Weight
+
+Per-instance weight override — values come from the loaded font family (React Native uses font families per weight, not `fontWeight` ranges):
+
+```tsx tessera-example:typography/weight.tsx
+
+```
+
+<ExamplePreview Component={TypographyWeightExample} />
+
+### Style override
+
+The `style` prop accepts plain React Native styles or a function with theme access for one-off adjustments. Property names stay the native RN ones and the result is applied last (after variant, weight, color and align):
+
+```tsx tessera-example:typography/style-override.tsx
+
+```
+
+<ExamplePreview Component={TypographyStyleOverrideExample} />
+
+## Accessibility
+
+What the component sets for you:
+
+- `accessibilityRole="header"` on the `h1`–`h6` variants, so screen readers announce document structure.
+- `maxFontSizeMultiplier` capped at `2` by default so OS font scaling stays readable without breaking layouts. Override per instance through the `maxFontSizeMultiplier` prop.
+- Text never captures focus and does not interrupt screen reader focus by itself.
+
+What you should provide:
+
+- Meaningful content — avoid purely decorative labels in interactive rows.
+- When a heading is purely presentational (a repeated label inside list items), prefer a non-heading variant to avoid noisy heading announcements.
+- All examples on this page are accessible by construction; keep the same care in your copies (for instance, screen-reader-only labels go on the interactive element, not the text).
+
+## Dependencies
+
+Everything this component imports, so you can estimate the effort of porting fixes:
+
+| Import                                                  | Why                                           |
+| ------------------------------------------------------- | --------------------------------------------- |
+| `react-native` (`Text`, types)                          | The primitive being wrapped                   |
+| `../../core` (`resolveTesseraStyle`, `useTheme`, types) | Theme access and the theme-aware `style` prop |
+
+No other component is imported — fixes port as a file-level diff against your copied folder.
+
+## Version and changes
+
+The component history lives in the repo `CHANGELOG.md`. Filter entries by the `typography` scope to see what changed since your copy and what to port.
+
+## Props API
+
+`Typography` is a single piece (no compound slots). All behavior comes from the theme; overrides are scoped to the props below:
+
+| Prop                    | Type                            | Default   | Description                                                                                                                                                            |
+| ----------------------- | ------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`               | `TypographyVariant`             | `'body1'` | One of `h1`…`h6`, `subtitle1`/`subtitle2`, `body1`/`body2`, `button`, `caption`, `overline`                                                                            |
+| `weight`                | `TypographyToken['fontWeight']` | —         | Per-instance weight override (e.g. `'700'` on `body1`)                                                                                                                 |
+| `color`                 | `TypographyColor`               | —         | `primary`, `secondary` (muted text), `success`, `info`, `warning`, `error`, `disabled`; when omitted, text uses `theme.palette.text.primary` so dark mode always works |
+| `align`                 | `TextStyle['textAlign']`        | —         | Text alignment (`left`, `center`, `right`, `justify`)                                                                                                                  |
+| `style`                 | `TesseraStyleProp<TextStyle>`   | —         | Plain RN styles or `(theme) => styles` escape hatch, applied last                                                                                                      |
+| `maxFontSizeMultiplier` | `number`                        | `2`       | Cap for OS font scaling; omit (or pass a higher value) to loosen it                                                                                                    |
+
+Any other `TextProps` (`accessibilityLabel`, `numberOfLines`, …) is forwarded untouched.

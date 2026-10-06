@@ -1,6 +1,20 @@
 import type * as Preset from '@docusaurus/preset-classic';
-import type { Config } from '@docusaurus/types';
+import type { Config, PluginModule } from '@docusaurus/types';
 import { themes as prismThemes } from 'prism-react-renderer';
+import remarkRegistryExample from './remark/registry-example.mjs';
+
+const webpackAliasPlugin: PluginModule = () => ({
+  name: 'tessera-webpack-alias',
+  configureWebpack() {
+    return {
+      resolve: {
+        alias: {
+          'react-native$': 'react-native-web',
+        },
+      },
+    };
+  },
+});
 
 const config: Config = {
   title: 'Tessera',
@@ -17,6 +31,8 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  plugins: [webpackAliasPlugin],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -28,6 +44,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          remarkPlugins: [remarkRegistryExample],
         },
         theme: {
           customCss: './src/css/custom.css',

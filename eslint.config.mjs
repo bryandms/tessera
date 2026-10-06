@@ -157,7 +157,7 @@ const eslintConfig = [
         {
           patterns: [
             {
-              group: ['tessera/src/**', 'tessera-examples/src/**'],
+              group: ['tessera/src/**', 'tessera-examples/*'],
               message:
                 'Tessera: import the public barrel only (`import ... from "tessera"` / `"tessera-examples"`).',
             },

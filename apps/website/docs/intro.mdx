@@ -1,3 +1,89 @@
-# Tessera
+---
+sidebar_position: 1
+---
 
-Copyable React Native components for Expo — shadcn-style. Copy the code, don't install a package.
+# Introduction
+
+Tessera is a catalog of self-contained React Native components for Expo projects, inspired by [shadcn/ui](https://ui.shadcn.com): you **copy the code** — no npm package, no peer dependency juggling. Every component lives in its own folder, composes with the theme of the catalog and ports fixes manually between projects.
+
+## The model in one minute
+
+- **Copy, don't install** — components ship as source under `packages/tessera/src`.
+- **Self-contained** — a component never imports another component, so fixes port as file-level diffs. Copy the component folder plus `core` and you are done.
+- **Composition over props** — interactive components expose compound pieces (e.g. `Button.Root`, `Button.Icon`, `Button.Text`) instead of mega-prop lists.
+- **Theme-aware `style`** — every component accepts the native React Native `style` prop with two shapes: plain RN styles, or a function `(theme, state) => styles` that reads the design tokens and the component state (`pressed`, `focused`, `disabled`…). Property names never change.
+- **Accessible by default** — touch targets ≥ 48dp, semantic roles, `accessibilityState`, screen reader flows documented per component.
+
+## How to copy
+
+### 1. Copy the source folders
+
+Everything lives under `packages/tessera/src`. Copy the `core` folder **once per project**, then the component folders you need. Suggested destination: `src/shared/ui/tessera/`.
+
+| Copy from                                      | Copy to                                         | Included files                                                                       |
+| ---------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `packages/tessera/src/core/`                   | `src/shared/ui/tessera/core/`                   | `tokens.ts`, `theme.ts`, `theme-provider.tsx`, `variants.ts`, `style.ts`, `index.ts` |
+| `packages/tessera/src/components/<component>/` | `src/shared/ui/tessera/components/<component>/` | Each component page lists its exact files                                            |
+
+The `examples/` folder and the demo app of the repository are **not** part of the copy — they exist only to document the catalog.
+
+### 2. Requirements
+
+The copy assumes your project runs the same React Native stack as the catalog:
+
+| Dependency                 | Keep in sync with the catalog |
+| -------------------------- | ----------------------------- |
+| React                      | 19                            |
+| React Native (Expo SDK 57) | 0.86                          |
+
+The components import nothing beyond `react`, `react-native` and the copied `core` — no extra packages to install. If a component ever needs an external dependency, its page lists it under **Dependencies**.
+
+### 3. Mount the theme once
+
+`ThemeProvider` lives in `core/` and resolves tokens via `createAppTheme(mode)`. Mount it at your app root (with Expo Router, that is your `app/_layout.tsx`):
+
+```tsx
+import { Stack } from 'expo-router';
+import { ThemeProvider } from '@/shared/ui/tessera/core';
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </ThemeProvider>
+  );
+}
+```
+
+From anywhere in the app, `useTheme()` and `useThemeMode()` read and drive the active mode:
+
+```tsx
+import { useTheme, useThemeMode } from '@/shared/ui/tessera/core';
+
+const { mode, setMode } = useThemeMode();
+const theme = useTheme();
+```
+
+### 4. Import a component
+
+Each component folder ships an `index.ts` barrel. Import from the component page you copied:
+
+```tsx
+import { Typography } from '@/shared/ui/tessera/components/typography';
+```
+
+## Theming
+
+Variants, colors and semantic tones come from `createAppTheme(mode)`. To restyle the catalog globally, edit your copied `core` — no component changes required:
+
+- `paletteShades` — the 50–900 ramps (primary, secondary, success, info, warning, error).
+- `spacingScale`, `radiusScale` — spacing and radius scales (`spacing.xs`…`xl`, `radius.sm`…`full`).
+- The type scale — `h1`…`overline` variants in `createAppTheme`.
+
+Dark mode is resolved by `createAppTheme(mode)`: light uses the deep end of each ramp (700/800/900) with white contrast text, dark lifts the colors toward the 300–400 range with black contrast text. The gray `secondary` ramp keeps the light mapping in both modes.
+
+For one-off adjustments around a single instance, prefer the `style` prop of the component over editing the theme — each component page documents its `style` escape hatch.
+
+## Versioning and fixes
+
+The catalog history lives in the repo `CHANGELOG.md`. Components follow Conventional Commits with a per-component scope (`fix(button): …`), so you can filter the changelog by the components you copied to find fixes worth porting.
