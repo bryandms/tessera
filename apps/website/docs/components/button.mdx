@@ -1,0 +1,122 @@
+import ExamplePreview from '@site/src/components/example-preview';
+import {
+  ButtonBasicExample,
+  ButtonFullWidthExample,
+  ButtonSizesExample,
+  ButtonStyleOverrideExample,
+  ButtonVariantsExample,
+  ButtonWithIconExample,
+} from 'tessera-examples';
+
+# Button
+
+The button component is the interactive anchor of the catalog: three appearance variants (`contained`, `outlined`, `text`) × two color axes (`primary`, `secondary`), three sizes and additive pieces (`Icon`, `Text`) that share the root state through an internal context. Copy it into your project — no package to install.
+
+To copy `Button` into your project, follow the [How to copy](/docs/intro#how-to-copy) guide — copy `core` once plus the `button` folder, mount `ThemeProvider` and you are done.
+
+```tsx tessera-example:button/basic.tsx
+
+```
+
+<ExamplePreview Component={ButtonBasicExample} />
+
+## Examples
+
+### Variants
+
+Two independent axes: `variant` decides the appearance (`contained` fill, `outlined` border, `text` borderless) and `color` decides the palette family (`primary`, `secondary`) — no props mirror between the root and its pieces:
+
+```tsx tessera-example:button/variants.tsx
+
+```
+
+<ExamplePreview Component={ButtonVariantsExample} />
+
+### Sizes
+
+Visual scale through heights (36/48/56), paddings and type scale — all built from the tokens:
+
+```tsx tessera-example:button/sizes.tsx
+
+```
+
+<ExamplePreview Component={ButtonSizesExample} />
+
+### With icon
+
+`Button.Icon` is marked decorative for screen readers (`importantForAccessibility="no"` + `accessibilityElementsHidden`), so the accessible name comes from `Button.Text` only; the icon inherits the variant color automatically:
+
+```tsx tessera-example:button/with-icon.tsx
+
+```
+
+<ExamplePreview Component={ButtonWithIconExample} />
+
+### Full width
+
+By default the root hugs its content. Full-width buttons (form footers, sheet actions) configure themselves through the `style` prop — no dedicated prop needed:
+
+```tsx tessera-example:button/full-width.tsx
+
+```
+
+<ExamplePreview Component={ButtonFullWidthExample} />
+
+### Style override
+
+The `style` prop is the escape hatch: plain RN styles or `(theme, state) => styles` (the function receives `pressed`, `disabled` and `busy`) — here it turns the base into a "Tip" pill with a press animation, without touching the component or adding variants:
+
+```tsx tessera-example:button/style-override.tsx
+
+```
+
+<ExamplePreview Component={ButtonStyleOverrideExample} />
+
+## Accessibility
+
+What the component sets for you:
+
+- `accessibilityRole="button"` and `accessibilityState={{ disabled, busy }}` on the root — states come from the props, never duplicated in the label.
+- The `Icon` piece is hidden from assistive tech, so the accessible name is the text piece.
+- Touch target: the default `md` size keeps ≥ 48dp; `sm` is the compact exception (36dp), `lg` grows to 56dp.
+
+What you should provide:
+
+- A `Button.Text` child with a meaningful action label (verbs, not "OK").
+- `onPress` — the component does not simulate actions without it.
+- `busy={true}` while an action is pending; the state is announced and visual styles keep the disabled look if you pair it with `disabled`.
+
+The rendered root is a flattened style, so it composes safely with `Link asChild` wrappers when the action is navigation. Default sizing: the root **hugs its content** (row direction, centered label) — make it full width with `style={{ alignSelf: 'stretch' }}`.
+
+## Dependencies
+
+Everything this component imports, so you can estimate the effort of porting fixes:
+
+| Import                                                                    | Why                                                |
+| ------------------------------------------------------------------------- | -------------------------------------------------- |
+| `react-native` (`Pressable`, `Text`, `StyleSheet`, types)                 | Primitives being wrapped                           |
+| `../../core` (`createVariants`, `resolveTesseraStyle`, `useTheme`, types) | Theme access, variants typing, theme-aware `style` |
+
+Tokens consumed from your copied `core`: `palette.primary/secondary` (fills, borders, labels per variant), `palette.action.disabled*` (states), the button type scale (labels) and the spacing/radius scales (shapes). Editing those tokens restyles every instance globally — no component changes needed.
+
+No other component is imported — fixes port as a file-level diff against your copied folder (`button.tsx`, `button-context.ts`, `types.ts`, `variants.ts`, `index.ts`).
+
+## Version and changes
+
+The component history lives in the repo `CHANGELOG.md`. Filter entries by the `button` scope to see what changed since your copy and what to port.
+
+## Props API
+
+`Button.Root` (the interactive piece):
+
+| Prop                   | Type                                       | Default       | Description                                                                                          |
+| ---------------------- | ------------------------------------------ | ------------- | ---------------------------------------------------------------------------------------------------- |
+| `variant`              | `ButtonVariant`                            | `'contained'` | `'contained'` (filled), `'outlined'` (bordered), `'text'` (borderless)                               |
+| `color`                | `ButtonColor`                              | `'primary'`   | Palette family: `'primary'` (blue), `'secondary'` (gray)                                             |
+| `size`                 | `ButtonSize`                               | `'md'`        | `'sm'`, `'md'`, `'lg'` — visual scale in heights (36/48/56); the default keeps a ≥ 48dp touch target |
+| `disabled`             | `boolean`                                  | `false`       | Cancels interaction, muted state announced                                                           |
+| `busy`                 | `boolean`                                  | `false`       | Announced through `accessibilityState` (pair with your own pending UI)                               |
+| `style`                | `TesseraStyleProp<ViewStyle, ButtonState>` | —             | Plain RN styles or `(theme, { pressed, disabled, busy }) => styles`, applied last                    |
+| `onPress`, `testID`, … | `PressableProps`                           | —             | Forwarded untouched                                                                                  |
+
+`Button.Text` and `Button.Icon` do not take variant props — they inherit from the enclosing root; forward extra `Text` props as needed.
