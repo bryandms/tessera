@@ -18,6 +18,15 @@ import {
   buttonTextVariants,
 } from './variants';
 
+/**
+ * Interactive root of the button: a `Pressable` with a ≥ 48dp touch
+ * target that resolves its look from `variant` × `color` × `size` and
+ * shares its state (`pressed`, `disabled`, `busy`) with the pieces
+ * through an internal context.
+ *
+ * Compose with `Button.Icon` and `Button.Text`; the flattened style makes
+ * it safe to wrap with `Link asChild` for navigation actions.
+ */
 function ButtonRoot({
   variant = 'contained',
   color = 'primary',
@@ -71,6 +80,11 @@ function ButtonRoot({
   );
 }
 
+/**
+ * Accessible label of the button — this is the name announced by screen
+ * readers, so keep it a short action verb ("Save", not "OK"). Inherits
+ * variant, size and state from the enclosing root.
+ */
 function ButtonText({ style, children, ...rest }: ButtonTextProps) {
   const theme = useTheme();
   const { variant, color, size, state } = useButtonVariant();
@@ -87,6 +101,12 @@ function ButtonText({ style, children, ...rest }: ButtonTextProps) {
   );
 }
 
+/**
+ * Decorative leading piece — hidden from screen readers (`accessibilityElementsHidden`
+ * + `importantForAccessibility="no"`); the accessible name comes from
+ * `Button.Text`. The glyph inherits the variant color automatically
+ * (muted when disabled).
+ */
 function ButtonIcon({ style, children }: ButtonIconProps) {
   const { variant, color, state } = useButtonVariant();
   const theme = useTheme();

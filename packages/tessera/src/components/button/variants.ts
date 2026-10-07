@@ -22,6 +22,10 @@ const colorRoles = (theme: AppTheme, color: ButtonColor): ColorRoles => {
   };
 };
 
+/**
+ * Base structure every button renders: horizontal layout with the label
+ * centered on both axes and content-hugging width.
+ */
 export const buttonBase: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',

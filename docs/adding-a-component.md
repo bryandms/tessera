@@ -1,6 +1,6 @@
 # Adding a component
 
-The canonical pattern lives in the Typography component — read its source, demo screen and docs page before adding anything new. This is the checklist for every new component.
+The canonical patterns live in the catalog: **Typography** for the single-piece anatomy and **Button** for the interactive compound anatomy (`Button.Root`/`Icon`/`Text`) — read their source, demo screens and docs pages before adding anything new. This is the checklist for every new component.
 
 ## 1. Component folder
 

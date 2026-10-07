@@ -49,7 +49,7 @@ Tessera is a catalog of self-contained React Native components that you **copy**
 - **Theme-aware `style`** — every component accepts the native RN `style` prop with two shapes: plain RN styles, or a function `(theme, state) => styles` that reads design tokens and component state (`pressed`, `focused`, `disabled`…). No NativeWind, no styled-components — just `StyleSheet`, design tokens, theme and variants.
 - **Accessible by default** — touch targets ≥ 48dp, semantic roles, `accessibilityState`, screen reader flows and WCAG AA contrast verified per component.
 
-**Catalog status:** [Typography](https://bryandms.github.io/tessera/docs/components/typography) is available; Button and TextInput are next. The [changelog](CHANGELOG.md) and release tags track what is copy-ready.
+**Catalog status:** [Typography](https://bryandms.github.io/tessera/docs/components/typography) and [Button](https://bryandms.github.io/tessera/docs/components/button) are copy-ready. The [changelog](CHANGELOG.md) and release tags track what is copy-ready.
 
 ## Requirements
 
