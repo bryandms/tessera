@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { CatalogExample } from '../catalog-example';
 import { TypographyBasicExample } from './basic';
 import { TypographyStyleOverrideExample } from './style-override';
 import { TypographyTonesExample } from './tones';
@@ -10,13 +10,6 @@ export { TypographyVariantsExample } from './variants';
 export { TypographyTonesExample } from './tones';
 export { TypographyWeightExample } from './weight';
 export { TypographyStyleOverrideExample } from './style-override';
-
-export type CatalogExample = {
-  id: string;
-  title: string;
-  description?: string;
-  Component: ComponentType;
-};
 
 export const typographyExamples: CatalogExample[] = [
   {

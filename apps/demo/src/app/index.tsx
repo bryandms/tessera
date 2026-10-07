@@ -3,7 +3,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { useTheme, useThemeMode } from 'tessera';
 
-const componentLinks = [{ href: '/typography', label: 'Typography' }] as const;
+const componentLinks = [
+  { href: '/typography', label: 'Typography' },
+  { href: '/button', label: 'Button' },
+] as const;
 
 export default function Index() {
   const theme = useTheme();
