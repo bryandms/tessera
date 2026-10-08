@@ -1,12 +1,12 @@
 # Adding a component
 
-The canonical patterns live in the catalog: **Typography** for the single-piece anatomy and **Button** for the interactive compound anatomy (`Button.Root`/`Icon`/`Text`) — read their source, demo screens and docs pages before adding anything new. This is the checklist for every new component.
+The canonical patterns live in the catalog: **Typography** for the single-piece anatomy and **Button** for the interactive compound anatomy (`Button.Root`/`Icon`/`Text`/`Spinner`) — read their source, demo screens and docs pages before adding anything new. This is the checklist for every new component.
 
 ## 1. Component folder
 
 Create `packages/tessera/src/components/<name>/` (kebab-case):
 
-- `<name>.tsx` — implementation. Interactive components use **compound pieces** (`Button.Root`, `Button.Icon`, `Button.Text`) sharing state through an internal context; simple components are a single piece.
+- `<name>.tsx` — implementation. Interactive components use **compound pieces** (`Button.Root`, `Button.Icon`, `Button.Text`, `Button.Spinner`) sharing state through an internal context; simple components are a single piece.
 - `types.ts` — optional, when the public types outgrow the component file.
 - `variants.ts` — optional, when the variant dispatch outgrows the component file.
 - `index.ts` — barrel exporting the public API only. This is what the catalog barrel (`src/index.ts`) re-exports.

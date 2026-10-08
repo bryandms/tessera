@@ -1,16 +1,18 @@
 import ExamplePreview from '@site/src/components/example-preview';
 import {
   ButtonBasicExample,
+  ButtonBusyExample,
   ButtonFullWidthExample,
   ButtonSizesExample,
   ButtonStyleOverrideExample,
+  ButtonTonesExample,
   ButtonVariantsExample,
   ButtonWithIconExample,
 } from 'tessera-examples';
 
 # Button
 
-The button component is the interactive anchor of the catalog: three appearance variants (`contained`, `outlined`, `text`) × two color axes (`primary`, `secondary`), three sizes and additive pieces (`Icon`, `Text`) that share the root state through an internal context. Copy it into your project — no package to install.
+The button component is the interactive anchor of the catalog: three appearance variants (`contained`, `outlined`, `text`) × six color families (`primary`, `secondary`, `success`, `info`, `warning`, `error`), three sizes and additive pieces (`Icon`, `Text`, `Spinner`) that share the root state through an internal context. Copy it into your project — no package to install.
 
 To copy `Button` into your project, follow the [How to copy](/docs/intro#how-to-copy) guide — copy `core` once plus the `button` folder, mount `ThemeProvider` and you are done.
 
@@ -24,7 +26,7 @@ To copy `Button` into your project, follow the [How to copy](/docs/intro#how-to-
 
 ### Variants
 
-Two independent axes: `variant` decides the appearance (`contained` fill, `outlined` border, `text` borderless) and `color` decides the palette family (`primary`, `secondary`) — no props mirror between the root and its pieces:
+Two independent axes: `variant` decides the appearance (`contained` fill, `outlined` border, `text` borderless) and `color` decides the palette family. This example fixes `color="primary"` to isolate the appearance axis — the color families have their own section below:
 
 ```tsx tessera-example:button/variants.tsx
 
@@ -42,15 +44,35 @@ Visual scale through heights (36/48/56), paddings and type scale — all built f
 
 <ExamplePreview Component={ButtonSizesExample} />
 
+### Tones
+
+Every palette family is offered natively — each tone resolves exhaustively to theme tokens whose contrast is verified in light and dark mode, so destructive or confirmatory actions never need hand-picked colors:
+
+```tsx tessera-example:button/tones.tsx
+
+```
+
+<ExamplePreview Component={ButtonTonesExample} />
+
 ### With icon
 
-`Button.Icon` is marked decorative for screen readers (`importantForAccessibility="no"` + `accessibilityElementsHidden`), so the accessible name comes from `Button.Text` only; the icon inherits the variant color automatically:
+`Button.Icon` is a neutral, decorative slot (`importantForAccessibility="no"` + `accessibilityElementsHidden`), so the accessible name comes from `Button.Text` only. Compose it before or after `Button.Text` — the root supplies spacing, alignment and state. Plain-string glyphs are wrapped, scaled and tinted automatically; any other content (an icon component, an SVG, a `View`) is rendered as-is and the consumer configures its tint:
 
 ```tsx tessera-example:button/with-icon.tsx
 
 ```
 
 <ExamplePreview Component={ButtonWithIconExample} />
+
+### Busy
+
+While `busy`, the root announces the state through `accessibilityState.busy` and blocks presses (a double-submit guard); the look does not dim. Compose `Button.Spinner` while the action is pending — the piece is decorative, inherits the variant color and renders static when the OS reduce-motion setting is on:
+
+```tsx tessera-example:button/busy.tsx
+
+```
+
+<ExamplePreview Component={ButtonBusyExample} />
 
 ### Full width
 
@@ -64,7 +86,7 @@ By default the root hugs its content. Full-width buttons (form footers, sheet ac
 
 ### Style override
 
-The `style` prop is the escape hatch: plain RN styles or `(theme, state) => styles` (the function receives `pressed`, `disabled` and `busy`) — here it turns the base into a "Tip" pill with a press animation, without touching the component or adding variants:
+The `style` prop is the escape hatch: plain RN styles or `(theme, state) => styles` (the function receives `pressed`, `disabled` and `busy`) — here it turns the base into a "Tip" pill with a press animation, without touching the component or adding variants. Custom icon content is tinted by the consumer through `useTheme`:
 
 ```tsx tessera-example:button/style-override.tsx
 
@@ -77,14 +99,16 @@ The `style` prop is the escape hatch: plain RN styles or `(theme, state) => styl
 What the component sets for you:
 
 - `accessibilityRole="button"` and `accessibilityState={{ disabled, busy }}` on the root — states come from the props, never duplicated in the label.
-- The `Icon` piece is hidden from assistive tech, so the accessible name is the text piece.
+- The `Icon` and `Spinner` pieces are hidden from assistive tech, so the accessible name is the text piece (the spinner does not announce itself: the root's `busy` state is the announcement).
+- `busy` blocks presses without contaminating the announced `disabled` state.
 - Touch target: the default `md` size keeps ≥ 48dp; `sm` is the compact exception (36dp), `lg` grows to 56dp.
+- `Button.Spinner` honors the OS reduce-motion setting: the glyph renders static when motion is reduced, keeping the pending-state feedback.
 
 What you should provide:
 
 - A `Button.Text` child with a meaningful action label (verbs, not "OK").
 - `onPress` — the component does not simulate actions without it.
-- `busy={true}` while an action is pending; the state is announced and visual styles keep the disabled look if you pair it with `disabled`.
+- `busy={true}` while an action is pending; compose `Button.Spinner` for the visible indicator.
 
 The rendered root is a flattened style, so it composes safely with `Link asChild` wrappers when the action is navigation. Default sizing: the root **hugs its content** (row direction, centered label) — make it full width with `style={{ alignSelf: 'stretch' }}`.
 
@@ -92,12 +116,12 @@ The rendered root is a flattened style, so it composes safely with `Link asChild
 
 Everything this component imports, so you can estimate the effort of porting fixes:
 
-| Import                                                                    | Why                                                |
-| ------------------------------------------------------------------------- | -------------------------------------------------- |
-| `react-native` (`Pressable`, `Text`, `StyleSheet`, types)                 | Primitives being wrapped                           |
-| `../../core` (`createVariants`, `resolveTesseraStyle`, `useTheme`, types) | Theme access, variants typing, theme-aware `style` |
+| Import                                                                                                      | Why                                                               |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `react-native` (`Pressable`, `Text`, `View`, `ActivityIndicator`, `AccessibilityInfo`, `StyleSheet`, types) | Primitives being wrapped + the reduce-motion-aware busy indicator |
+| `../../core` (`createVariants`, `resolveTesseraStyle`, `useTheme`, types)                                   | Theme access, variants typing, theme-aware `style`                |
 
-Tokens consumed from your copied `core`: `palette.primary/secondary` (fills, borders, labels per variant), `palette.action.disabled*` (states), the button type scale (labels) and the spacing/radius scales (shapes). Editing those tokens restyles every instance globally — no component changes needed.
+Tokens consumed from your copied `core`: `palette.primary/secondary/success/info/warning/error` (fills, borders, labels per variant — their `contrastText`/`textColor` roles carry the verified AA contrast), `palette.action.disabled*` (states), the button type scale (labels) and the spacing/radius scales (shapes). Editing those tokens restyles every instance globally — no component changes needed.
 
 No other component is imported — fixes port as a file-level diff against your copied folder (`button.tsx`, `button-context.ts`, `types.ts`, `variants.ts`, `index.ts`).
 
@@ -109,14 +133,21 @@ The component history lives in the repo `CHANGELOG.md`. Filter entries by the `b
 
 `Button.Root` (the interactive piece):
 
-| Prop                   | Type                                       | Default       | Description                                                                                          |
-| ---------------------- | ------------------------------------------ | ------------- | ---------------------------------------------------------------------------------------------------- |
-| `variant`              | `ButtonVariant`                            | `'contained'` | `'contained'` (filled), `'outlined'` (bordered), `'text'` (borderless)                               |
-| `color`                | `ButtonColor`                              | `'primary'`   | Palette family: `'primary'` (blue), `'secondary'` (gray)                                             |
-| `size`                 | `ButtonSize`                               | `'md'`        | `'sm'`, `'md'`, `'lg'` — visual scale in heights (36/48/56); the default keeps a ≥ 48dp touch target |
-| `disabled`             | `boolean`                                  | `false`       | Cancels interaction, muted state announced                                                           |
-| `busy`                 | `boolean`                                  | `false`       | Announced through `accessibilityState` (pair with your own pending UI)                               |
-| `style`                | `TesseraStyleProp<ViewStyle, ButtonState>` | —             | Plain RN styles or `(theme, { pressed, disabled, busy }) => styles`, applied last                    |
-| `onPress`, `testID`, … | `PressableProps`                           | —             | Forwarded untouched                                                                                  |
+| Prop                   | Type                                       | Default       | Description                                                                                             |
+| ---------------------- | ------------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------- |
+| `variant`              | `ButtonVariant`                            | `'contained'` | `'contained'` (filled), `'outlined'` (bordered), `'text'` (borderless)                                  |
+| `color`                | `ButtonColor`                              | `'primary'`   | Palette family: `'primary'` (blue), `'secondary'` (gray), `'success'`, `'info'`, `'warning'`, `'error'` |
+| `size`                 | `ButtonSize`                               | `'md'`        | `'sm'`, `'md'`, `'lg'` — visual scale in heights (36/48/56); the default keeps a ≥ 48dp touch target    |
+| `disabled`             | `boolean`                                  | `false`       | Cancels interaction, muted state announced                                                              |
+| `busy`                 | `boolean`                                  | `false`       | Announced through `accessibilityState.busy` and blocks presses (double-submit guard)                    |
+| `style`                | `TesseraStyleProp<ViewStyle, ButtonState>` | —             | Plain RN styles or `(theme, { pressed, disabled, busy }) => styles`, applied last                       |
+| `onPress`, `testID`, … | `PressableProps`                           | —             | Forwarded untouched                                                                                     |
 
 `Button.Text` and `Button.Icon` do not take variant props — they inherit from the enclosing root; forward extra `Text` props as needed.
+
+`Button.Spinner` composes the native `ActivityIndicator`:
+
+| Prop    | Type                             | Default   | Description                                    |
+| ------- | -------------------------------- | --------- | ---------------------------------------------- |
+| `size`  | `ActivityIndicatorProps['size']` | `'small'` | Glyph size forwarded to the native indicator   |
+| `style` | `StyleProp<ViewStyle>`           | —         | Per-instance override on the spinner container |

@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'tessera';
+import { Button, useTheme } from 'tessera';
 
 export function ButtonStyleOverrideExample() {
+  const theme = useTheme();
+
   return (
     <View style={styles.container}>
       <Button.Root
@@ -16,7 +18,10 @@ export function ButtonStyleOverrideExample() {
           transform: pressed ? [{ scale: 0.96 }] : [],
         })}>
         <Button.Icon>
-          <Text style={styles.icon}>{'$'}</Text>
+          <Text
+            style={[styles.icon, { color: theme.palette.warning.textColor }]}>
+            {'$'}
+          </Text>
         </Button.Icon>
         <Button.Text>Tip</Button.Text>
       </Button.Root>

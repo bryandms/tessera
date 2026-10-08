@@ -8,4 +8,5 @@ export type {
   ButtonRootProps,
   ButtonTextProps,
   ButtonIconProps,
+  ButtonSpinnerProps,
 } from './types';
