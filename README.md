@@ -45,7 +45,7 @@ Copyable React Native components for Expo projects — shadcn-style: you copy th
 Tessera is a catalog of self-contained React Native components that you **copy** into your Expo project instead of installing a package, the way [shadcn/ui](https://ui.shadcn.com) does it for the web.
 
 - **Self-contained** — a component never imports another component, so fixes port as file-level diffs between projects.
-- **Composition over props** — interactive components expose compound pieces (like `Button.Root` / `Button.Icon` / `Button.Text`) instead of mega-prop lists.
+- **Composition over props** — interactive components expose compound pieces (like `Button.Root` / `Button.Icon` / `Button.Text` / `Button.Spinner`) instead of mega-prop lists.
 - **Theme-aware `style`** — every component accepts the native RN `style` prop with two shapes: plain RN styles, or a function `(theme, state) => styles` that reads design tokens and component state (`pressed`, `focused`, `disabled`…). No NativeWind, no styled-components — just `StyleSheet`, design tokens, theme and variants.
 - **Accessible by default** — touch targets ≥ 48dp, semantic roles, `accessibilityState`, screen reader flows and WCAG AA contrast verified per component.
 
