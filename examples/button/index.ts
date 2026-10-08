@@ -1,15 +1,19 @@
 import type { CatalogExample } from '../catalog-example';
 import { ButtonBasicExample } from './basic';
+import { ButtonBusyExample } from './busy';
 import { ButtonFullWidthExample } from './full-width';
 import { ButtonSizesExample } from './sizes';
 import { ButtonStyleOverrideExample } from './style-override';
+import { ButtonTonesExample } from './tones';
 import { ButtonVariantsExample } from './variants';
 import { ButtonWithIconExample } from './with-icon';
 
 export { ButtonBasicExample } from './basic';
 export { ButtonVariantsExample } from './variants';
 export { ButtonSizesExample } from './sizes';
+export { ButtonTonesExample } from './tones';
 export { ButtonWithIconExample } from './with-icon';
+export { ButtonBusyExample } from './busy';
 export { ButtonFullWidthExample } from './full-width';
 export { ButtonStyleOverrideExample } from './style-override';
 
@@ -24,7 +28,7 @@ export const buttonExamples: CatalogExample[] = [
   {
     id: 'button/variants',
     title: 'Variants',
-    description: 'Contained, outlined and text appearance × color axes.',
+    description: 'Contained, outlined and text appearance axis.',
     Component: ButtonVariantsExample,
   },
   {
@@ -34,10 +38,25 @@ export const buttonExamples: CatalogExample[] = [
     Component: ButtonSizesExample,
   },
   {
+    id: 'button/tones',
+    title: 'Tones',
+    description:
+      'The six palette families resolved to AA-verified tokens per mode.',
+    Component: ButtonTonesExample,
+  },
+  {
     id: 'button/with-icon',
     title: 'With icon',
-    description: 'Icon piece marked decorative for screen readers.',
+    description:
+      'Leading and trailing decorative slots; string glyphs are tinted automatically.',
     Component: ButtonWithIconExample,
+  },
+  {
+    id: 'button/busy',
+    title: 'Busy',
+    description:
+      'Announced as busy, presses blocked, spinner composed while pending.',
+    Component: ButtonBusyExample,
   },
   {
     id: 'button/full-width',

@@ -1,14 +1,24 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+  AccessibilityInfo,
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { resolveTesseraStyle, useTheme } from '../../core';
 import { ButtonVariantContext, useButtonVariant } from './button-context';
 import type {
   ButtonIconProps,
   ButtonRootProps,
+  ButtonSpinnerProps,
   ButtonTextProps,
 } from './types';
 import {
   buttonBase,
   buttonContainerVariants,
+  buttonContentColor,
   buttonDisabledVariants,
   buttonPressedVariants,
   buttonRadius,
@@ -22,10 +32,12 @@ import {
  * Interactive root of the button: a `Pressable` with a ≥ 48dp touch
  * target that resolves its look from `variant` × `color` × `size` and
  * shares its state (`pressed`, `disabled`, `busy`) with the pieces
- * through an internal context.
+ * through an internal context. While `busy`, presses are ignored
+ * (double-submit guard) and the state is announced as busy, not disabled.
  *
- * Compose with `Button.Icon` and `Button.Text`; the flattened style makes
- * it safe to wrap with `Link asChild` for navigation actions.
+ * Compose with `Button.Icon`, `Button.Text` and `Button.Spinner`; the
+ * flattened style makes it safe to wrap with `Link asChild` for
+ * navigation actions.
  */
 function ButtonRoot({
   variant = 'contained',
@@ -33,7 +45,9 @@ function ButtonRoot({
   size = 'md',
   busy,
   disabled,
+  accessibilityState,
   style,
+  onPress,
   children,
   ...rest
 }: ButtonRootProps) {
@@ -50,9 +64,20 @@ function ButtonRoot({
         state: { disabled: isDisabled, busy: isBusy },
       }}>
       <Pressable
+        {...rest}
         disabled={isDisabled}
         accessibilityRole="button"
-        accessibilityState={{ disabled: isDisabled, busy: isBusy }}
+        accessibilityState={{
+          disabled: isDisabled,
+          busy: isBusy,
+          ...accessibilityState,
+        }}
+        onPress={event => {
+          if (isBusy) {
+            return;
+          }
+          onPress?.(event);
+        }}
         style={({ pressed }) => {
           const layers = [
             buttonBase,
@@ -61,7 +86,7 @@ function ButtonRoot({
             buttonSpacingVariants[size],
             buttonContainerVariants[variant](theme, color),
             isDisabled ? buttonDisabledVariants[variant](theme) : undefined,
-            !isDisabled && pressed
+            !isDisabled && !isBusy && pressed
               ? buttonPressedVariants[variant](theme, color)
               : undefined,
             resolveTesseraStyle(
@@ -72,8 +97,7 @@ function ButtonRoot({
           ];
 
           return StyleSheet.flatten(layers);
-        }}
-        {...rest}>
+        }}>
         {children}
       </Pressable>
     </ButtonVariantContext.Provider>
@@ -102,25 +126,79 @@ function ButtonText({ style, children, ...rest }: ButtonTextProps) {
 }
 
 /**
- * Decorative leading piece — hidden from screen readers (`accessibilityElementsHidden`
- * + `importantForAccessibility="no"`); the accessible name comes from
- * `Button.Text`. The glyph inherits the variant color automatically
- * (muted when disabled).
+ * Decorative icon slot — hidden from screen readers
+ * (`accessibilityElementsHidden` + `importantForAccessibility="no"`);
+ * the accessible name comes from `Button.Text`. Plain-string glyphs are
+ * wrapped, tinted and scaled automatically; any other content is
+ * rendered as-is and its tint is configured by the consumer.
  */
 function ButtonIcon({ style, children }: ButtonIconProps) {
-  const { variant, color, state } = useButtonVariant();
+  const { variant, color, size, state } = useButtonVariant();
   const theme = useTheme();
-  const iconColor = state.disabled
-    ? theme.palette.action.disabled
-    : buttonTextVariants[variant](theme, color, state).color;
+  const contentColor = buttonContentColor(theme, variant, color, state);
 
   return (
-    <Text
-      style={StyleSheet.flatten([styles.icon, { color: iconColor }, style])}
+    <View
+      style={StyleSheet.flatten([styles.icon, style])}
       accessibilityElementsHidden
       importantForAccessibility="no">
-      {children}
-    </Text>
+      {typeof children === 'string' ? (
+        <Text
+          style={StyleSheet.flatten([
+            buttonTextSizeVariants[size],
+            { color: contentColor },
+          ])}>
+          {children}
+        </Text>
+      ) : (
+        children
+      )}
+    </View>
+  );
+}
+
+/**
+ * Decorative busy indicator — compose it inside the root while
+ * `busy`. Hidden from screen readers (the busy state is announced by
+ * the root through `accessibilityState.busy`). The glyph inherits the
+ * variant color (muted when disabled) and renders static when the OS
+ * reduce-motion setting is on.
+ */
+function ButtonSpinner({ size = 'small', style }: ButtonSpinnerProps) {
+  const { variant, color, state } = useButtonVariant();
+  const theme = useTheme();
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then(value => {
+      if (mounted) {
+        setReduceMotion(value);
+      }
+    });
+    const subscription = AccessibilityInfo.addEventListener(
+      'reduceMotionChanged',
+      setReduceMotion,
+    );
+
+    return () => {
+      mounted = false;
+      subscription?.remove();
+    };
+  }, []);
+
+  const spinnerColor = buttonContentColor(theme, variant, color, state);
+
+  return (
+    <ActivityIndicator
+      style={style}
+      color={spinnerColor}
+      size={size}
+      animating={!reduceMotion}
+      hidesWhenStopped={false}
+      accessibilityElementsHidden
+      importantForAccessibility="no"
+    />
   );
 }
 
@@ -135,4 +213,5 @@ export const Button = {
   Root: ButtonRoot,
   Text: ButtonText,
   Icon: ButtonIcon,
+  Spinner: ButtonSpinner,
 };

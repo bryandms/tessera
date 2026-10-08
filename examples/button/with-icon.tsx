@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button } from 'tessera';
 
 export function ButtonWithIconExample() {
   return (
     <View style={styles.container}>
       <Button.Root onPress={() => {}}>
-        <Button.Icon>
-          <Text style={styles.icon}>{'+'}</Text>
-        </Button.Icon>
+        <Button.Icon>{'+'}</Button.Icon>
         <Button.Text>Label</Button.Text>
+      </Button.Root>
+      <Button.Root variant="outlined" onPress={() => {}}>
+        <Button.Text>Label</Button.Text>
+        <Button.Icon>{'›'}</Button.Icon>
       </Button.Root>
     </View>
   );
@@ -17,9 +19,5 @@ export function ButtonWithIconExample() {
 const styles = StyleSheet.create({
   container: {
     gap: 8,
-  },
-  icon: {
-    fontSize: 16,
-    lineHeight: 20,
   },
 });

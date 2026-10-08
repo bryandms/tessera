@@ -1,4 +1,4 @@
-import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import type { AppTheme } from '../../core';
 import type { ButtonColor, ButtonState, ButtonVariant } from './types';
 
@@ -113,9 +113,23 @@ export const buttonRadius = StyleSheet.create({
   },
 });
 
+/**
+ * Color of content pieces (`Button.Icon`, `Button.Spinner`): the variant
+ * label color, or the muted action color while disabled.
+ */
+export const buttonContentColor = (
+  theme: AppTheme,
+  variant: ButtonVariant,
+  color: ButtonColor,
+  state: ButtonState,
+): string =>
+  state.disabled
+    ? theme.palette.action.disabled
+    : buttonTextVariants[variant](theme, color, state).color;
+
 export const buttonTextVariants: Record<
   ButtonVariant,
-  (theme: AppTheme, color: ButtonColor, state: ButtonState) => TextStyle
+  (theme: AppTheme, color: ButtonColor, state: ButtonState) => { color: string }
 > = {
   contained: (theme, color, { disabled }) => ({
     color: disabled

@@ -13,12 +13,6 @@ export function ButtonVariantsExample() {
       <Button.Root variant="text" color="primary" onPress={() => {}}>
         <Button.Text>Label</Button.Text>
       </Button.Root>
-      <Button.Root variant="contained" color="secondary" onPress={() => {}}>
-        <Button.Text>Label</Button.Text>
-      </Button.Root>
-      <Button.Root variant="outlined" color="secondary" onPress={() => {}}>
-        <Button.Text>Label</Button.Text>
-      </Button.Root>
     </View>
   );
 }
