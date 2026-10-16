@@ -1,0 +1,48 @@
+# dependencies
+node_modules/
+
+# build artifacts
+dist/
+build/
+out/
+coverage/
+.docusaurus/
+.cache-loader/
+*.tsbuildinfo
+.turbo/
+
+# expo / react native
+.expo/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+.kotlin/
+*.orig.*
+
+# generated native folders
+**/ios/
+**/android/
+
+# native signing / secrets
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+
+# env (only .env.example is versioned)
+.env*
+!.env.example
+
+# debug logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.*
+
+# typescript generated
+.next/
+
+# os / editor
+.DS_Store
