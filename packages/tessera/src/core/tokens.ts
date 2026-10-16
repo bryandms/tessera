@@ -1,6 +1,3 @@
-/**
- * Tones of one color ramp, from `50` (lightest) to `900` (darkest).
- */
 export type PaletteShades = {
   '50': string;
   '100': string;

@@ -145,12 +145,6 @@ const eslintConfig = [
             ArrowFunctionExpression: true,
             ClassDeclaration: true,
           },
-          contexts: [
-            'TSInterfaceDeclaration',
-            'TSTypeAliasDeclaration',
-            'TSEnumDeclaration',
-            'TSPropertySignature',
-          ],
         },
       ],
     },
@@ -175,7 +169,7 @@ const eslintConfig = [
   },
 
   {
-    files: ['packages/tessera/src/core/tokens.ts'],
+    files: ['packages/tessera/src/components/**/*.{ts,tsx}'],
     rules: {
       'jsdoc/require-jsdoc': [
         'error',
@@ -186,11 +180,7 @@ const eslintConfig = [
             ArrowFunctionExpression: true,
             ClassDeclaration: true,
           },
-          contexts: [
-            'TSInterfaceDeclaration',
-            'TSTypeAliasDeclaration',
-            'TSEnumDeclaration',
-          ],
+          contexts: ['TSPropertySignature'],
         },
       ],
     },
