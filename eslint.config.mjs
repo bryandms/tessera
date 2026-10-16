@@ -175,6 +175,28 @@ const eslintConfig = [
   },
 
   {
+    files: ['packages/tessera/src/core/tokens.ts'],
+    rules: {
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            ArrowFunctionExpression: true,
+            ClassDeclaration: true,
+          },
+          contexts: [
+            'TSInterfaceDeclaration',
+            'TSTypeAliasDeclaration',
+            'TSEnumDeclaration',
+          ],
+        },
+      ],
+    },
+  },
+
+  {
     files: [
       'packages/tessera/src/core/**/*.{ts,tsx}',
       'packages/tessera/src/hooks/**/*.{ts,tsx}',
