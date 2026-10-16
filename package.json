@@ -8,12 +8,19 @@
     "pnpm": ">=11"
   },
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "pnpm run format:check"
+    "validate": "pnpm run format:check && pnpm run lint"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "eslint": "^9.39.5",
+    "eslint-config-expo": "^57.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^65.3.6",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "prettier": "^3.9.9"
   }
 }
