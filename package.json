@@ -12,7 +12,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "pnpm run format:check && pnpm run lint"
+    "typecheck": "pnpm -r run typecheck",
+    "madge": "madge --circular --extensions ts,tsx packages/tessera/src",
+    "validate": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run madge"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
@@ -21,6 +23,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsdoc": "^65.3.6",
     "eslint-plugin-react-hooks": "^7.1.1",
+    "madge": "^8.0.0",
     "prettier": "^3.9.9"
   }
 }
