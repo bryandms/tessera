@@ -1,0 +1,62 @@
+---
+sidebar_position: 2
+---
+
+import modeToggleSource from '!!raw-loader!../../../examples/theme/mode-toggle.tsx';
+import paletteSource from '!!raw-loader!../../../examples/theme/palette.tsx';
+import ExamplePreview from '@site/src/components/ExamplePreview';
+import CodeBlock from '@theme/CodeBlock';
+import { ModeToggleExample, PaletteExample } from 'tessera-examples';
+
+# Theming
+
+The theme is the set of tokens that every component reads: color palette, typography, spacing and radius. It is part of `core`, so you copy it once and then edit it in your project.
+
+## Using the theme
+
+Wrap your app with `ThemeProvider`. Components read the active theme with `useTheme()` and the color mode with `useThemeMode()`, which returns the current `mode` and a `setMode` function.
+
+`ThemeProvider` accepts a `defaultMode` prop, `'light'` by default.
+
+## Palette
+
+Each palette color has three values you use in your UI:
+
+- `main` fills controls.
+- `contrastText` is the text color on top of `main`.
+- `textColor` is the same hue in a variant that meets WCAG AA as text on `background.default`.
+
+<CodeBlock language="tsx">{paletteSource}</CodeBlock>
+
+<ExamplePreview Component={PaletteExample} />
+
+## Mode toggle
+
+`useThemeMode` lets a control switch between light and dark mode.
+
+<CodeBlock language="tsx">{modeToggleSource}</CodeBlock>
+
+<ExamplePreview Component={ModeToggleExample} />
+
+## Contrast
+
+Text colors are chosen to meet WCAG AA on `background.default` in both modes. When you add or change a color, check these controls in light and dark mode:
+
+- `textColor` on `background.default`: at least 4.5:1.
+- `contrastText` on `main`: at least 4.5:1.
+- `main` on `background.default`: at least 3:1, for controls.
+
+Disabled text is exempt, as WCAG allows.
+
+If a color does not meet a control, adjust the tones it uses for that mode with its `shadeMap`, the same way the built-in `secondary` and `warning` colors do.
+
+## Adding colors
+
+You can add a color ramp, for example `tertiary`:
+
+1. Add the tones from `50` to `900` to the ramp values.
+2. Add the color to `palette` in `createAppTheme`.
+3. Add its key to the `AppTheme` palette type.
+4. Check the contrast controls above in both modes.
+
+Adding tokens is backward compatible. Renaming or removing a token is a breaking change for anyone who already copied `core`.

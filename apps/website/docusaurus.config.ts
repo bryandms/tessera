@@ -20,6 +20,23 @@ const config: Config = {
     locales: ['en'],
   },
 
+  plugins: [
+    function reactNativeWeb() {
+      return {
+        name: 'react-native-web',
+        configureWebpack() {
+          return {
+            resolve: {
+              alias: {
+                'react-native$': 'react-native-web',
+              },
+            },
+          };
+        },
+      };
+    },
+  ],
+
   presets: [
     [
       'classic',
