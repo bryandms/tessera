@@ -151,7 +151,7 @@ const eslintConfig = [
   },
 
   {
-    files: ['apps/**/*.{ts,tsx}'],
+    files: ['apps/**/*.{ts,tsx}', 'examples/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
