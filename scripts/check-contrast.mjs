@@ -2,15 +2,6 @@ import { createAppTheme } from '../packages/tessera/src/core/theme.ts';
 
 const TEXT_MIN = 4.5;
 const NON_TEXT_MIN = 3;
-const COLOR_KEYS = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'error',
-];
-
 function parseColor(value) {
   const hex = /^#([0-9a-f]{6})$/i.exec(value);
   if (hex) {
@@ -77,7 +68,14 @@ function checksFor(mode) {
     });
   };
 
-  for (const key of COLOR_KEYS) {
+  const colorKeys = Object.entries(theme.palette)
+    .filter(
+      ([, value]) =>
+        typeof value === 'object' && value !== null && 'main' in value,
+    )
+    .map(([key]) => key);
+
+  for (const key of colorKeys) {
     add(
       `palette.${key}.textColor on background`,
       theme.palette[key].textColor,
