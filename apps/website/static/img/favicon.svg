@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Tessera">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F5E45"/>
+      <stop offset="1" stop-color="#064E3B"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#background)"/>
+  <g transform="translate(32 32) scale(0.72) translate(-32 -32)">
+    <rect x="23.5" y="7.5" width="17" height="17" rx="3.5" fill="#A7F3D0" transform="rotate(45 32 16)"/>
+    <rect x="7.5" y="23.5" width="17" height="17" rx="3.5" fill="#6EE7B7" transform="rotate(45 16 32)"/>
+    <rect x="39.5" y="23.5" width="17" height="17" rx="3.5" fill="#34D399" transform="rotate(45 48 32)"/>
+    <rect x="23.5" y="39.5" width="17" height="17" rx="3.5" fill="#10B981" transform="rotate(45 32 48)"/>
+  </g>
+</svg>
