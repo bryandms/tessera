@@ -8,6 +8,7 @@ export default function RootLayout() {
       <StatusBar style="auto" />
       <Stack>
         <Stack.Screen name="theme" options={{ title: 'Theme' }} />
+        <Stack.Screen name="typography" options={{ title: 'Typography' }} />
       </Stack>
     </ThemeProvider>
   );

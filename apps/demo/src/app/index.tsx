@@ -34,6 +34,16 @@ export default function Index() {
         }}>
         Theme
       </Link>
+      <Link
+        href="/typography"
+        accessibilityRole="link"
+        style={{
+          fontSize: 16,
+          fontWeight: '600',
+          color: theme.palette.primary.textColor,
+        }}>
+        Typography
+      </Link>
     </SafeAreaView>
   );
 }
