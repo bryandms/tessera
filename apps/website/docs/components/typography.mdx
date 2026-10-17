@@ -1,0 +1,95 @@
+import basicSource from '!!raw-loader!../../../../examples/typography/basic.tsx';
+import styleOverrideSource from '!!raw-loader!../../../../examples/typography/style-override.tsx';
+import tonesSource from '!!raw-loader!../../../../examples/typography/tones.tsx';
+import variantsSource from '!!raw-loader!../../../../examples/typography/variants.tsx';
+import weightSource from '!!raw-loader!../../../../examples/typography/weight.tsx';
+import ExamplePreview from '@site/src/components/ExamplePreview';
+import CodeBlock from '@theme/CodeBlock';
+import {
+  BasicExample,
+  StyleOverrideExample,
+  TonesExample,
+  VariantsExample,
+  WeightExample,
+} from 'tessera-examples';
+
+# Typography
+
+`Typography` renders text with the type scale of the theme, semantic colors and automatic light and dark mode. Use it instead of a bare React Native `Text` so every piece of text follows the theme. Copy it as described in the [introduction](/), together with [`core`](/theming).
+
+## Basic
+
+Without props, the text uses the `body1` variant and the primary text color.
+
+<CodeBlock language="tsx">{basicSource}</CodeBlock>
+
+<ExamplePreview Component={BasicExample} />
+
+## Variants
+
+`variant` picks a token from the type scale: `h1` to `h6`, `subtitle1`, `subtitle2`, `body1`, `body2`, `button`, `caption` and `overline`.
+
+<CodeBlock language="tsx">{variantsSource}</CodeBlock>
+
+<ExamplePreview Component={VariantsExample} />
+
+## Tones
+
+`color` sets the text color from the palette. Each value resolves to the text variant of its color, the one that meets WCAG AA on the background.
+
+<CodeBlock language="tsx">{tonesSource}</CodeBlock>
+
+<ExamplePreview Component={TonesExample} />
+
+## Weight
+
+`weight` overrides the font weight of the variant. Size and line height do not change.
+
+<CodeBlock language="tsx">{weightSource}</CodeBlock>
+
+<ExamplePreview Component={WeightExample} />
+
+## Style override
+
+`style` is applied last, after the variant, weight, color and alignment. It accepts a React Native style or a function that receives the theme.
+
+<CodeBlock language="tsx">{styleOverrideSource}</CodeBlock>
+
+<ExamplePreview Component={StyleOverrideExample} />
+
+## Accessibility
+
+What the component sets:
+
+- `h1` to `h6` have `accessibilityRole="header"`, so screen readers announce them as headings. Pass your own `accessibilityRole` to replace it.
+- `maxFontSizeMultiplier` defaults to `2`, which limits how much the system font size scales the text.
+- The component is not interactive. It does not capture focus or announce anything by itself.
+
+What you must provide:
+
+- Meaningful content. Avoid purely decorative text inside touchable rows.
+- A non-heading variant, such as `body1`, for text that repeats in lists.
+
+## Dependencies
+
+| Import                                            | Reason                                    |
+| ------------------------------------------------- | ----------------------------------------- |
+| `react-native` (`Text`, types)                    | Primitive that the component wraps        |
+| `core` (`resolveTesseraStyle`, `useTheme`, types) | Theme tokens and the `style` escape hatch |
+
+## Version and changes
+
+Changes to this component are listed in `CHANGELOG.md`, filtered by the `typography` scope.
+
+## Props
+
+| Prop                    | Type                            | Default        | Description                                                                                                                                 |
+| ----------------------- | ------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`               | `TypographyVariant`             | `'body1'`      | Token from the type scale. `h1` to `h6` are announced as headings.                                                                          |
+| `weight`                | `TypographyToken['fontWeight']` | —              | Overrides the font weight of the variant.                                                                                                   |
+| `color`                 | `TypographyColor`               | `text.primary` | `primary`, `secondary`, `success`, `info`, `warning`, `error`, `disabled`. `caption` and `overline` use their own muted color when omitted. |
+| `align`                 | `TextStyle['textAlign']`        | —              | `left`, `center`, `right`, `justify`.                                                                                                       |
+| `style`                 | `TesseraStyleProp<TextStyle>`   | —              | React Native style, or `(theme) => style`. Applied last.                                                                                    |
+| `maxFontSizeMultiplier` | `number`                        | `2`            | Upper limit for the system font scaling.                                                                                                    |
+
+Any other `Text` prop, such as `accessibilityLabel` or `numberOfLines`, is passed to the underlying `Text` unchanged.
