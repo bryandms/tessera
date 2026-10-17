@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r run typecheck",
-    "madge": "madge --circular --extensions ts,tsx packages/tessera/src",
+    "madge": "madge --circular --extensions ts,tsx packages/tessera/src apps/demo/src",
     "validate": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run madge",
     "prepare": "husky"
   },
