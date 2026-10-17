@@ -6,3 +6,89 @@ slug: /
 # Introduction
 
 Tessera is a catalog of React Native components that you copy into your Expo project. Nothing is installed: you own the source code.
+
+Each component uses only React, React Native and the shared `core` folder. You copy the files, you adapt them, and you keep them in your repository like any other code.
+
+## Requirements
+
+- An Expo project with React 19 or later and React Native 0.86 or later.
+- TypeScript. The source files are `.ts` and `.tsx`.
+- No native modules. The components work with the React Native APIs that Expo already includes.
+
+## How to copy
+
+### 1. Copy the source
+
+Copy the `packages/tessera/src` folder of the repository into your project, for example to `src/tessera`:
+
+```text
+src/tessera/
+├── core/          # tokens, theme, ThemeProvider, variants and style helpers
+├── components/    # one folder per component
+└── index.ts       # barrel with every public export
+```
+
+Keep the folder structure. Components import `core` with relative paths (`../../core`), so `core` and `components` must stay siblings under the same folder.
+
+To copy only what you use, copy `core/` and the folder of each component you need. Each component page lists its exact files.
+
+### 2. Wrap your app with ThemeProvider
+
+Components read the theme from `ThemeProvider`. Render it once, above every screen. With Expo Router, put it in the root layout:
+
+```tsx
+import { Stack } from 'expo-router';
+import { ThemeProvider } from '../tessera';
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <Stack />
+    </ThemeProvider>
+  );
+}
+```
+
+Adjust the import path to where you copied the folder. Components throw an error when they render outside `ThemeProvider`.
+
+### 3. Use a component
+
+Import the component from the copied folder:
+
+```tsx
+import { Typography } from '../tessera';
+
+<Typography variant="h4">Hello</Typography>;
+```
+
+Each component page shows its props, its accessibility contract and its examples.
+
+### 4. Check the copy
+
+Render a component in light and dark mode before you build on it. `ThemeProvider` starts in light mode by default. Use `useThemeMode()` to switch modes, or pass `defaultMode="dark"` to start in dark mode.
+
+## Updating a copy
+
+Components are not installed, so updates are manual. Each release is a Git tag named `v{version}`. To see what changed between two releases, compare them in the repository:
+
+```bash
+git clone https://github.com/bryandms/tessera.git
+cd tessera
+git diff v{previous}..v{next} -- packages/tessera/src
+```
+
+Port the changes you need into your copy by hand. Each component page lists its files, so you can compare only the components you use.
+
+The changelog lists every change for each release. Changes to tokens and components are the ones you may need to port.
+
+## Versions
+
+Versions follow [Semantic Versioning](https://semver.org):
+
+- **Patch** (`0.1.1`): fixes to existing components.
+- **Minor** (`0.2.0`): new components, new tokens and new variants. Your copy keeps working.
+- **Major** (`1.0.0`): renamed or removed tokens and props. Read the changelog before porting.
+
+## What not to copy
+
+The repository also contains `apps/`, `examples/`, `scripts/` and the configuration files. The apps and examples are for the documentation site and the demo. You do not need them in your project.
