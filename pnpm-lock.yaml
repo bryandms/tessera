@@ -89,6 +89,9 @@ importers:
       tessera:
         specifier: workspace:*
         version: link:../../packages/tessera
+      tessera-examples:
+        specifier: workspace:*
+        version: link:../../examples
     devDependencies:
       '@types/react':
         specifier: ~19.2.2

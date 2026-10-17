@@ -1,24 +1,39 @@
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import { useTheme } from 'tessera';
 
 export default function Index() {
+  const theme = useTheme();
+
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.root}>
-      <Text style={styles.title}>Tessera</Text>
+    <SafeAreaView
+      edges={['top', 'bottom']}
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 16,
+        backgroundColor: theme.palette.background.default,
+      }}>
+      <Text
+        style={{
+          fontSize: 32,
+          fontWeight: '700',
+          color: theme.palette.text.primary,
+        }}>
+        Tessera
+      </Text>
+      <Link
+        href="/theme"
+        accessibilityRole="link"
+        style={{
+          fontSize: 16,
+          fontWeight: '600',
+          color: theme.palette.primary.textColor,
+        }}>
+        Theme
+      </Link>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#000000',
-  },
-});
