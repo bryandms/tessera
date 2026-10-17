@@ -78,3 +78,7 @@ pnpm beta-release     # major pre-release, beta
 ```
 
 Releases use a `GITHUB_TOKEN` read from a local `.env` file. Copy `.env.example` to `.env` and add your token.
+
+## License
+
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
