@@ -157,6 +157,24 @@ const eslintConfig = [
   },
 
   {
+    files: ['apps/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['tessera/src/**'],
+              message:
+                'Tessera: import the public barrel only (`import ... from "tessera"`).',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
     files: [
       'packages/tessera/src/core/**/*.{ts,tsx}',
       'packages/tessera/src/hooks/**/*.{ts,tsx}',
