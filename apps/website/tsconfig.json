@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["@docusaurus/module-type-aliases"]
+  },
+  "include": ["*.ts", "src/**/*"]
+}
