@@ -145,19 +145,13 @@ const eslintConfig = [
             ArrowFunctionExpression: true,
             ClassDeclaration: true,
           },
-          contexts: [
-            'TSInterfaceDeclaration',
-            'TSTypeAliasDeclaration',
-            'TSEnumDeclaration',
-            'TSPropertySignature',
-          ],
         },
       ],
     },
   },
 
   {
-    files: ['apps/**/*.{ts,tsx}'],
+    files: ['apps/**/*.{ts,tsx}', 'examples/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -169,6 +163,24 @@ const eslintConfig = [
                 'Tessera: import the public barrel only (`import ... from "tessera"`).',
             },
           ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['packages/tessera/src/components/**/*.{ts,tsx}'],
+    rules: {
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            ArrowFunctionExpression: true,
+            ClassDeclaration: true,
+          },
+          contexts: ['TSPropertySignature'],
         },
       ],
     },

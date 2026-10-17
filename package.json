@@ -13,8 +13,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r run typecheck",
-    "madge": "madge --circular --extensions ts,tsx packages/tessera/src apps/demo/src",
-    "validate": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run madge",
+    "contrast": "tsx scripts/check-contrast.mjs",
+    "madge": "madge --circular --extensions ts,tsx packages/tessera/src examples apps/demo/src",
+    "validate": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run madge && pnpm run contrast",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -39,6 +40,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "madge": "^8.0.0",
-    "prettier": "^3.9.9"
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15"
   }
 }

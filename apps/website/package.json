@@ -12,12 +12,17 @@
     "@docusaurus/core": "~3.10.2",
     "@docusaurus/preset-classic": "~3.10.2",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-native-web": "~0.21.4",
+    "tessera": "workspace:*",
+    "tessera-examples": "workspace:*"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "~3.10.2",
     "@docusaurus/types": "~3.10.2",
     "@types/react": "~19.2.2",
+    "raw-loader": "^4.0.2",
+    "react-native": "0.86.3",
     "typescript": "~6.0.3"
   }
 }
