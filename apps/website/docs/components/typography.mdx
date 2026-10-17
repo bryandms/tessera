@@ -15,7 +15,7 @@ import {
 
 # Typography
 
-`Typography` renders text with the type scale of the theme, semantic colors and automatic light and dark mode. Use it instead of a bare React Native `Text` so every piece of text follows the theme. Copy it as described in the [introduction](/), together with [`core`](/theming).
+`Typography` renders text with the type scale of the theme, semantic colors and automatic light and dark mode. Use it instead of a bare React Native `Text` so every piece of text follows the theme. Copy it as described in the [introduction](/#how-to-copy), together with [`core`](/theming).
 
 ## Basic
 
@@ -76,6 +76,16 @@ What you must provide:
 | ------------------------------------------------- | ----------------------------------------- |
 | `react-native` (`Text`, types)                    | Primitive that the component wraps        |
 | `core` (`resolveTesseraStyle`, `useTheme`, types) | Theme tokens and the `style` escape hatch |
+
+## Files
+
+Copy `core/` once for the whole catalog, then this component's folder:
+
+```text
+core/                                   # all files, copied once
+components/typography/index.ts
+components/typography/typography.tsx
+```
 
 ## Version and changes
 
