@@ -195,11 +195,15 @@ export const createAppTheme = (mode: ThemeMode = 'light'): AppTheme => {
       grey: paletteShades.grey,
       success: toPaletteColor(paletteShades.success, mode),
       info: toPaletteColor(paletteShades.info, mode),
-      // In light mode no warning tone reaches 4.5:1 with white, so the text on
-      // it is dark and its text color is fixed.
+      // In light mode the fill uses the 900 tone, the only warning tone that
+      // reaches 3:1 on white. White text does not reach 4.5:1 on it, so the
+      // text is dark and the text color is fixed.
       warning: toPaletteColor(paletteShades.warning, mode, {
         contrastText: isDark ? undefined : '#212121',
         textColor: isDark ? undefined : '#C25400',
+        shadeMap: isDark
+          ? undefined
+          : { light: '700', main: '900', dark: '900' },
       }),
       error: toPaletteColor(paletteShades.error, mode),
       common: { white: '#FFFFFF', black: '#000000' },
