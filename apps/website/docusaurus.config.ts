@@ -1,5 +1,6 @@
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
+import packageJson from '../../package.json';
 
 const config: Config = {
   title: 'Tessera',
@@ -54,6 +55,13 @@ const config: Config = {
   themeConfig: {
     navbar: {
       title: 'Tessera',
+      items: [
+        {
+          to: '/releases',
+          label: `v${packageJson.version}`,
+          position: 'right',
+        },
+      ],
     },
   } satisfies Preset.ThemeConfig,
 };
