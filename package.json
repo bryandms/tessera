@@ -16,6 +16,9 @@
     "contrast": "tsx scripts/check-contrast.mjs",
     "madge": "madge --circular --extensions ts,tsx packages/tessera/src examples apps/demo/src",
     "validate": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run madge && pnpm run contrast",
+    "release": "dotenv -e .env -- node scripts/check-release-token.mjs && dotenv -e .env -- release-it",
+    "alpha-release": "dotenv -e .env -- node scripts/check-release-token.mjs && dotenv -e .env -- release-it preminor --preRelease=alpha",
+    "beta-release": "dotenv -e .env -- node scripts/check-release-token.mjs && dotenv -e .env -- release-it major --preRelease=beta",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -31,7 +34,9 @@
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
     "@commitlint/types": "^21.2.3",
+    "@release-it/conventional-changelog": "^12.0.2",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.5",
     "eslint-config-expo": "^57.0.2",
     "eslint-config-prettier": "^10.1.8",
@@ -41,6 +46,7 @@
     "lint-staged": "^17.6.0",
     "madge": "^8.0.0",
     "prettier": "^3.9.9",
+    "release-it": "^21.1.1",
     "tsx": "^4.23.15"
   }
 }
