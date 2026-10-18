@@ -1,0 +1,21 @@
+/* Light-mode accent: emerald-700 reaches 5.5:1 on white, above the AA text minimum. */
+:root {
+  --ifm-color-primary: #047857;
+  --ifm-color-primary-dark: #036b4e;
+  --ifm-color-primary-darker: #03634a;
+  --ifm-color-primary-darkest: #024f3b;
+  --ifm-color-primary-light: #059669;
+  --ifm-color-primary-lighter: #0a9a6d;
+  --ifm-color-primary-lightest: #10b981;
+}
+
+/* Dark-mode accent: emerald-400 reaches 9:1 on the default dark background. */
+[data-theme='dark'] {
+  --ifm-color-primary: #34d399;
+  --ifm-color-primary-dark: #2ec28c;
+  --ifm-color-primary-darker: #2bb882;
+  --ifm-color-primary-darkest: #229a6b;
+  --ifm-color-primary-light: #4ade9f;
+  --ifm-color-primary-lighter: #5fe3aa;
+  --ifm-color-primary-lightest: #8aeec6;
+}

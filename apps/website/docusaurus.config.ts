@@ -5,7 +5,7 @@ import packageJson from '../../package.json';
 const config: Config = {
   title: 'Tessera',
   tagline: 'Copy-paste React Native components for Expo projects',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   url: 'https://bryandms.github.io',
   baseUrl: '/tessera/',
@@ -47,7 +47,9 @@ const config: Config = {
           routeBasePath: '/',
         },
         blog: false,
-        theme: {},
+        theme: {
+          customCss: './src/css/custom.css',
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -55,6 +57,10 @@ const config: Config = {
   themeConfig: {
     navbar: {
       title: 'Tessera',
+      logo: {
+        alt: 'Tessera',
+        src: 'img/tessera-mark.svg',
+      },
       items: [
         {
           to: '/releases',
