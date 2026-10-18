@@ -20,6 +20,21 @@
         "backgroundColor": "#064E3B"
       }
     },
-    "plugins": ["expo-router", "expo-status-bar"]
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/adaptive-icon.png",
+          "imageWidth": 240,
+          "backgroundColor": "#064E3B",
+          "dark": {
+            "image": "./assets/adaptive-icon.png",
+            "backgroundColor": "#064E3B"
+          }
+        }
+      ]
+    ]
   }
 }
