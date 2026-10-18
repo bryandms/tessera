@@ -4,6 +4,7 @@
     "slug": "tessera-demo",
     "version": "0.1.0",
     "scheme": "tessera",
+    "icon": "./assets/icon.png",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "platforms": ["ios", "android"],
@@ -13,7 +14,11 @@
       "appleTeamId": "6G32AHR7QA"
     },
     "android": {
-      "package": "io.github.bryandms.tessera"
+      "package": "io.github.bryandms.tessera",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#064E3B"
+      }
     },
     "plugins": ["expo-router", "expo-status-bar"]
   }
