@@ -89,8 +89,20 @@ function checksFor(mode) {
       TEXT_MIN,
     );
     add(
+      `palette.${key}.contrastText on dark`,
+      theme.palette[key].contrastText,
+      theme.palette[key].dark,
+      TEXT_MIN,
+    );
+    add(
       `palette.${key}.main on background`,
       theme.palette[key].main,
+      surface,
+      NON_TEXT_MIN,
+    );
+    add(
+      `palette.${key}.dark on background`,
+      theme.palette[key].dark,
       surface,
       NON_TEXT_MIN,
     );
