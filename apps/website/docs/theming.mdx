@@ -44,11 +44,14 @@ Text colors are chosen to meet WCAG AA on `background.default` in both modes. Wh
 
 - `textColor` on `background.default`: at least 4.5:1.
 - `contrastText` on `main`: at least 4.5:1.
-- `main` on `background.default`: at least 3:1, for controls.
+- `contrastText` on `dark` (the pressed state): at least 4.5:1.
+- `main` and `dark` on `background.default`: at least 3:1, for controls.
 
 Disabled text is exempt, as WCAG allows.
 
-If a color does not meet a control, adjust the tones it uses for that mode with its `shadeMap`, the same way the built-in `secondary` and `warning` colors do.
+If a color does not meet a control, adjust the tones of its ramp in `tokens.ts` until it does.
+
+`palette.divider` is decorative. It does not reach 3:1 on the background, so do not use it as the border of a control.
 
 ## Adding colors
 

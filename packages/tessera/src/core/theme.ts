@@ -67,41 +67,53 @@ export type AppTheme = {
   radius: RadiusScale;
 };
 
-type ShadeKey = keyof PaletteShades;
+const channelLuminance = (channel: number): number => {
+  const value = channel / 255;
+  return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+};
 
-type PaletteColorOptions = {
-  contrastText?: string;
-  textColor?: string;
-  shadeMap?: { light: ShadeKey; main: ShadeKey; dark: ShadeKey };
+const relativeLuminance = (hex: string): number => {
+  const red = channelLuminance(parseInt(hex.slice(1, 3), 16));
+  const green = channelLuminance(parseInt(hex.slice(3, 5), 16));
+  const blue = channelLuminance(parseInt(hex.slice(5, 7), 16));
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+
+const contrastRatio = (first: string, second: string): number => {
+  const luminances = [relativeLuminance(first), relativeLuminance(second)];
+  return (Math.max(...luminances) + 0.05) / (Math.min(...luminances) + 0.05);
+};
+
+/** Picks black or white, whichever gives the higher minimum contrast on every fill. */
+const pickContrastText = (fills: string[]): string => {
+  const minimumContrast = (text: string): number =>
+    Math.min(...fills.map(fill => contrastRatio(fill, text)));
+  return minimumContrast('#000000') >= minimumContrast('#FFFFFF')
+    ? '#000000'
+    : '#FFFFFF';
 };
 
 const toPaletteColor = (
   shades: PaletteShades,
   mode: ThemeMode,
-  options: PaletteColorOptions = {},
 ): PaletteColor => {
-  const { contrastText, textColor, shadeMap } = options;
   if (mode === 'dark') {
-    const shadesMap =
-      shadeMap ?? ({ light: '300', main: '400', dark: '600' } as const);
     return {
       ...shades,
-      light: shades[shadesMap.light],
-      main: shades[shadesMap.main],
-      dark: shades[shadesMap.dark],
-      contrastText: contrastText ?? '#000000',
-      textColor: textColor ?? shades[shadesMap.main],
+      light: shades['300'],
+      main: shades['400'],
+      dark: shades['600'],
+      contrastText: pickContrastText([shades['400'], shades['600']]),
+      textColor: shades['400'],
     };
   }
-  const shadesMap =
-    shadeMap ?? ({ light: '700', main: '800', dark: '900' } as const);
   return {
     ...shades,
-    light: shades[shadesMap.light],
-    main: shades[shadesMap.main],
-    dark: shades[shadesMap.dark],
-    contrastText: contrastText ?? '#FFFFFF',
-    textColor: textColor ?? shades[shadesMap.main],
+    light: shades['700'],
+    main: shades['800'],
+    dark: shades['900'],
+    contrastText: pickContrastText([shades['800'], shades['900']]),
+    textColor: shades['900'],
   };
 };
 
@@ -168,7 +180,7 @@ const buildTypography = (
     overline: {
       fontSize: 12,
       fontWeight: '400',
-      lineHeight: 32,
+      lineHeight: 16,
       letterSpacing: 1,
       color: muted,
     },
@@ -185,26 +197,11 @@ export const createAppTheme = (mode: ThemeMode = 'light'): AppTheme => {
     mode,
     palette: {
       primary: toPaletteColor(paletteShades.primary, mode),
-      secondary: toPaletteColor(paletteShades.secondary, mode, {
-        contrastText: '#FFFFFF',
-        textColor: isDark ? paletteShades.secondary['400'] : undefined,
-        shadeMap: isDark
-          ? { light: '600', main: '700', dark: '800' }
-          : undefined,
-      }),
+      secondary: toPaletteColor(paletteShades.secondary, mode),
       grey: paletteShades.grey,
       success: toPaletteColor(paletteShades.success, mode),
       info: toPaletteColor(paletteShades.info, mode),
-      // In light mode the fill uses the 900 tone, the only warning tone that
-      // reaches 3:1 on white. White text does not reach 4.5:1 on it, so the
-      // text is dark and the text color is fixed.
-      warning: toPaletteColor(paletteShades.warning, mode, {
-        contrastText: isDark ? undefined : '#212121',
-        textColor: isDark ? undefined : '#C25400',
-        shadeMap: isDark
-          ? undefined
-          : { light: '700', main: '900', dark: '900' },
-      }),
+      warning: toPaletteColor(paletteShades.warning, mode),
       error: toPaletteColor(paletteShades.error, mode),
       common: { white: '#FFFFFF', black: '#000000' },
       action: isDark
